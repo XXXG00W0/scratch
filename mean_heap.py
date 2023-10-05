@@ -1,4 +1,3 @@
-# avl_heap
 import math
 import statistics as stats
 
