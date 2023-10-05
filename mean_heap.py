@@ -5,10 +5,16 @@ import statistics as stats
 class MedianHeap:
 
     def __init__(self):
+        # A median heap consists of a min heap and a max heap
         self.min_heap = MinHeap()
         self.max_heap = MaxHeap()
 
     def median(self):
+        # the median of the underlined non-empty array is:
+	    # if both heaps have same size: 
+        #   median is the mean of the top elements of the two heaps
+        # else:
+        #   median is the top elements of the heap with greater size
         if self.min_heap.heap_size() > self.max_heap.heap_size():
             return self.min_heap.top()
         elif self.min_heap.heap_size() < self.max_heap.heap_size():
@@ -19,6 +25,12 @@ class MedianHeap:
             return None
 
     def insert(self, key):
+        # if the value of the element is less than the median:
+        #   the new element is inserted to the max heap
+        # if the value of the element is less than the median:
+        #   the new element is inserted to the min heap
+        # after each insertion, the size of the two heaps may differ by over 2
+        # therefore, a balance action is required 
         median = self.median()
         if self.min_heap.top() == None:
             self.min_heap.min_heap_insert(key)
@@ -29,6 +41,7 @@ class MedianHeap:
         self.heap_balance()
         
     def heap_balance(self):
+        # putting one exccess element from the larger heap to the smaller heap 
         if self.min_heap.heap_size() > self.max_heap.heap_size() + 1:
             min_val = self.min_heap.extract_min()
             self.max_heap.max_heap_insert(min_val)
@@ -152,3 +165,16 @@ print(mean_heap.min_heap.heap)
 print(mean_heap.max_heap.heap)
 print(mean_heap.median())
 print(stats.median(arr))
+
+max_heap = MaxHeap()
+arr1 = [3, 9, 5, 8, 15, 7, 4, 10, 6, 12, 16]
+max_heap.heap = arr1
+max_heap.build_max_heap()
+# for i in arr1:
+    # max_heap.max_heap_insert(i)
+    # max_heap.build_max_heap()
+print(max_heap.heap)
+max_heap.extract_max()
+print(max_heap.heap)
+max_heap.max_heap_insert(11)
+print(max_heap.heap)
